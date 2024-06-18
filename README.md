@@ -8,7 +8,7 @@ Tugas Ulangan AKhir Praktikkum (UAP) Mata Kuliah Struktur Data dan Algoritma
 3. NADYA ARSA
 
 # APLIKASI PEMESANAN TIKET BUS
-Repository ini terbagi menjadi dua versi, yaitu berisikan mengenai penggunaan Python dalam pengelolaan pemesanan tiket bus menggunakan CSV sebagai tempat penyimpanan file dan Tkinter sebagai Graphic User Interface (GIU) dan pengaplikasian Phython tanpa Graphic User Interface (GIU). Aplikasi ini memiliki fungsionalitas untuk menambahkan, menghapus, memperbaharui, melihat, mengurutkan, dan mencari data berdasarkan parameter seperti nama, asal, tujuan, kelas dan jumlah kursi.
+Repository ini terbagi menjadi dua versi, yaitu berisikan mengenai penggunaan Python dalam pengelolaan pemesanan tiket bus menggunakan CSV sebagai tempat penyimpanan file dan Tkinter sebagai Graphic User Interface (GIU) dan pengaplikasian Phython tanpa Graphic User Interface (GIU). Aplikasi ini memiliki fungsionalitas untuk menambah, menghapus, memperbaharui, melihat, mengurutkan, dan mencari data berdasarkan parameter seperti nama, asal, tujuan, kelas dan jumlah kursi.
 
 
 # Fitur
