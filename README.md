@@ -12,10 +12,10 @@ Repository ini terbagi menjadi dua versi, yaitu berisikan mengenai penggunaan Py
 
 
 # Fitur
-1. Tambah Barang: Menambahkan pesanan tiket baru ke database.
-2. Hapus Barang: Menghapus pesanan tiket secara keseluruhan.
-3. Perbarui Barang: Memperbarui nama, asal, tujuan, kelas, dan jumlah kursi.
-4. Cari Barang: Mencari barang berdasarkan nama, asal, tujuan, kelas, dan jumlah kursi.
-5. Update Barang: Memperbarui data pesanan tiket.
-6. Tampilkan Semua Barang: Menampilkan pesanan tiket.
-7. Urutkan Barang: Mengurutkan pesanan tiket berdasarkan parameter seperti nama, asal, tujuan, kelas dan jumlah kursi.
+1. Tambah Pesanan: Menambahkan pesanan tiket baru ke database.
+2. Hapus Pesanan: Menghapus pesanan tiket secara keseluruhan.
+3. Perbarui Pesanan: Memperbarui nama, asal, tujuan, kelas, dan jumlah kursi.
+4. Cari Pesanan: Mencari data pesanan berdasarkan nama, asal, tujuan, kelas, dan jumlah kursi.
+5. Update Pesanan: Memperbarui data pesanan tiket.
+6. Tampilkan Semua Pesanan: Menampilkan pesanan tiket.
+7. Urutkan Pesanan: Mengurutkan pesanan tiket berdasarkan parameter seperti nama, asal, tujuan, kelas dan jumlah kursi.
