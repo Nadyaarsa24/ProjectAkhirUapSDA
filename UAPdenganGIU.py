@@ -167,19 +167,19 @@ class Tiket:
 
     # <-------------- Fungsi untuk melihat sisa kursi yang tersedia ---------------->
 
-    def sisa_kursi(self, asal, tujuan, kelas):
+    def sisa_kursi(self, asal, tujuan, kelas, tanggal):
         selected = self.tree.selection()
         bisnis = 36
         eksekutif = 26
         with open(CSV_FILE, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
-                if row[1] == asal and row[2] == tujuan and row[5] == kelas:
+                if row[1] == asal and row[2] == tujuan and row[5] == kelas and row[3] == tanggal:
                     if kelas == "Bisnis":
                         bisnis -= int(row[4])
                     elif kelas == "Eksekutif":
                         eksekutif -= int(row[4])
-        return bisnis, eksekutif
+        return bisnis if kelas == "Bisnis" else eksekutif
 
     # <---------------- Fungsi untuk membaca data CSV ------------------------>
     def load_data(self):
@@ -188,7 +188,7 @@ class Tiket:
             with open(CSV_FILE, 'r') as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    row = [row[0], row[1], row[2], row[3], row[4], row[5], row[6], self.sisa_kursi(row[1], row[2], row[5])]
+                    row = [row[0], row[1], row[2], row[3], row[4], row[5], row[6], self.sisa_kursi(row[1], row[2], row[5], row[3])]
                     self.tree.insert('', 'end', values=row)
         except FileNotFoundError:
             with open(CSV_FILE, 'w') as file:
@@ -328,7 +328,6 @@ class Tiket:
 
 
     # <------------------ Fungsi untuk mengurutkan data berdasarkan kolom ------------------->
-
     def sort_data(self, event=None):
         sort_by = self.sort_by_entry.get()
         if sort_by:
@@ -340,16 +339,35 @@ class Tiket:
         else:
             messagebox.showwarning("Sort Error", "Pilih kolom yang ingin diurutkan")
 
-    # <------------------- Fungsi untuk mencari data berdasarkan beberapa kriteria ------------------->
+    # <------------------- Fungsi untuk mencari data berdasarkan Nama ------------------->
     def search_data(self):
         search_value = self.search_entry.get().lower()
-        for item in self.tree.get_children():
-            if search_value in self.tree.item(item)["values"][0].lower():
+        if not search_value:
+            messagebox.showwarning("Search Error", "Please enter a search value")
+            return
+        self.sort_treeview()
+        items = list(self.tree.get_children())
+        left, right = 0, len(items) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            item = items[mid]
+            item_value = self.tree.item(item)["values"][0].lower()
+            if item_value == search_value:
                 self.tree.selection_set(item)
                 self.tree.focus(item)
                 self.tree.see(item)
                 return
-        messagebox.showwarning("Search Error", "Data tidak ditemukan")
+            elif item_value < search_value:
+                left = mid + 1
+            else:
+                right = mid - 1
+        messagebox.showwarning("Search Error", "Data not found")
+
+    def sort_treeview(self):
+        items = [(self.tree.item(child)["values"][0].lower(), child) for child in self.tree.get_children('')]
+        items.sort()
+        for index, (val, child) in enumerate(items):
+            self.tree.move(child, '', index)
 
 # <--- Main Program --->
 if __name__ == "__main__":
