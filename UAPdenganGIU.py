@@ -117,7 +117,7 @@ class Tiket:
         self.tanggal_Label.grid(row=4, column=0, padx=10, pady=5, sticky="w")
         self.jumlah_kursi_Label = Label(DataFrameRight, text="Jumlah Kursi", font=("times new roman", 10, "bold"), bg="light grey")
         self.jumlah_kursi_Label.grid(row=5, column=0, padx=10, pady=5, sticky="w")
-        self.kelas_Label = Label(DataFrameRight, text="Kelas", font=("times new roman", 10, "bold"), bg="white")
+        self.kelas_Label = Label(DataFrameRight, text="Kelas", font=("times new roman", 10, "bold"), bg="light grey")
         self.kelas_Label.grid(row=6, column=0, padx=10, pady=5, sticky="w")
 
 
@@ -210,11 +210,13 @@ class Tiket:
         jumlah_kursi = self.jumlah_kursi_entry.get()
         kelas = self.kelas_entry.get()
         harga = self.hitung_harga_tiket(asal, tujuan, kelas, int(jumlah_kursi))
-        sisa_kursi = self.sisa_kursi(asal, tujuan, kelas)
+        sisa_kursi = self.sisa_kursi(asal, tujuan, kelas, tanggal)
         if nama == "" or asal == "" or tujuan == "" or tanggal == "" or jumlah_kursi == "" or kelas == "":
             messagebox.showerror("Error", "Semua kolom harus diisi")
         else:
-            
+            if int(sisa_kursi) == 0:
+                messagebox.showinfo("Alert", "Kursi sudah penuh")
+                return
             with open(CSV_FILE, 'a', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow([nama, asal, tujuan, tanggal, jumlah_kursi, kelas, harga])
@@ -251,7 +253,12 @@ class Tiket:
         if not selected_item:
             messagebox.showerror("Error", "Pilih data yang ingin diupdate")
             return
-        data = [self.nama_entry.get(), self.asal_entry.get(), self.destination_entry.get(), self.tanggal_entry.get(), self.jumlah_kursi_entry.get(), self.kelas_entry.get(), self.hitung_harga_tiket(self.asal_entry.get(), self.destination_entry.get(), self.kelas_entry.get(), int(self.jumlah_kursi_entry.get()))]
+        data = [self.nama_entry.get(), self.asal_entry.get(), 
+                self.destination_entry.get(), self.tanggal_entry.get(), 
+                self.jumlah_kursi_entry.get(), self.kelas_entry.get(), 
+                self.hitung_harga_tiket(self.asal_entry.get(), 
+                self.destination_entry.get(), self.kelas_entry.get(), 
+                int(self.jumlah_kursi_entry.get()))]
         if '' in data:
             messagebox.showerror("Error", "Semua kolom harus diisi")
             return
