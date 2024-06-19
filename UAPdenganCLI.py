@@ -1,7 +1,35 @@
-class TiketBus:
-    def __init__(self):
-        self.data = []
+# <-- Modul CSV -->
+import csv
 
+# <-- Class TiketBus -->
+class TiketBus:
+    def __init__(self, file_path="tiket_bus.csv"):
+        self.file_path = file_path
+        self.data = self.unggah_data()
+
+    # <-- Fungsi untuk mengunggah data dari file CSV -->
+    def unggah_data(self):
+        data = []
+        try: 
+            with open(self.file_path, "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row: 
+                        data.append(Tiket(row[0], row[1], row[2], row[3], int(row[4]), row[5]))
+        except FileNotFoundError:
+            print("File tidak ditemukan")
+            with open(self.file_path, "w") as file:
+                pass
+        return data
+
+    # <-- Fungsi untuk menyimpan data ke file CSV -->
+    def simpan_data(self):
+        with open(self.file_path, "w", newline="") as file:
+            writer = csv.writer(file)
+            for tiket in self.data:
+                writer.writerow([tiket.nama, tiket.asal, tiket.tujuan, tiket.tanggal, tiket.jumlah_kursi, tiket.kelas])
+
+    # <-- Fungsi untuk mengecek kursi yang tersedia -->
     def kursi_tersedia(self, asal, tujuan, kelas, tanggal=""):
         bisnis = 36
         eksekutif = 26
@@ -12,6 +40,7 @@ class TiketBus:
                 eksekutif -= tiket.jumlah_kursi
         return bisnis if kelas.lower() == "bisnis" else eksekutif
 
+    # <-- Fungsi untuk menghitung harga tiket -->
     def harga_tiket(self, asal, tujuan, jumlah_kursi, kelas):
         if (kelas == "Bisnis" or "bisnis") and (asal == "Jakarta" or "jakarta") and (tujuan == "Lampung" or "lampung"):
             return 200000 * jumlah_kursi
@@ -63,16 +92,21 @@ class TiketBus:
             return 200000 * jumlah_kursi
         else:
             return 0
-        
+    
+    # <-- Fungsi untuk menambah data -->
     def tambah_data(self, nama, asal, tujuan, tanggal, jumlah_kursi, kelas):
         self.data.append(Tiket(nama, asal, tujuan, tanggal, int(jumlah_kursi), kelas))
+        self.simpan_data()
         return self.harga_tiket(asal, tujuan, int(jumlah_kursi), kelas)
 
+    # <-- Fungsi untuk menghapus data -->
     def hapus_data(self, nama):
         initial_length = len(self.data)
         self.data = [tiket for tiket in self.data if tiket.nama != nama]
+        self.simpan_data()
         return initial_length != len(self.data)
 
+    # <-- Fungsi untuk mengupdate data -->
     def update_data(self, nama, asal, tujuan, tanggal, jumlah_kursi, kelas):
         for tiket in self.data:
             if tiket.nama == nama:
@@ -81,9 +115,11 @@ class TiketBus:
                 tiket.tanggal = tanggal
                 tiket.jumlah_kursi = int(jumlah_kursi)
                 tiket.kelas = kelas
+                self.simpan_data()
                 return True
         return False
 
+    # <-- Fungsi untuk melihat data -->
     def lihat_data(self):
         for tiket in self.data:
             harga = self.harga_tiket(tiket.asal, tiket.tujuan, tiket.jumlah_kursi, tiket.kelas)
@@ -91,6 +127,7 @@ class TiketBus:
             print(f"{tiket} - Harga: {harga} - Kursi Tersedia: {kursi_tersedia}")
         return self.data 
 
+    # <-- Fungsi untuk mencari data dengan binary search -->
     def binary_search_by_id(self, nama, lihat_data=False):
         self.data.sort(key=lambda x: x.nama.lower())
         low, high = 0, len(self.data) - 1
@@ -104,14 +141,15 @@ class TiketBus:
                 high = mid - 1
         return None + self.lihat_data() if lihat_data else None
 
+    # <-- Fungsi untuk mengurutkan data menggunakan quick sort -->
     def quick_sort_by(data):
         if len(data) <= 1:
             return data
         else:
             pivot = data[0]
             less = [tiket for tiket in data[1:] if tiket.nama.lower() <= pivot.nama.lower()]
-            greater = [tiket for tiket in data[1:] if tiket.nama.lower() > pivot.nama.lower()]
-            return TiketBus.quick_sort_by(less) + [pivot] + TiketBus.quick_sort_by(greater)
+            high = [tiket for tiket in data[1:] if tiket.nama.lower() > pivot.nama.lower()]
+            return TiketBus.quick_sort_by(less) + [pivot] + TiketBus.quick_sort_by(high)
 
 class Tiket:
     def __init__(self, nama, asal, tujuan, tanggal, jumlah_kursi, kelas):
@@ -135,6 +173,7 @@ def tampilkan_menu():
     print("6. Cari Pemesanan")
     print("7. Keluar")
 
+# <-- Fungsi main -->
 def main():
     tiket_bus = TiketBus()
 
