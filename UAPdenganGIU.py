@@ -4,7 +4,7 @@ from tkinter import *
 import csv
 
 # Nama file CSV
-CSV_FILE = 'datatiket.csv'
+CSV_FILE = 'datatiketbus.csv'
 
 class Tiket:
     def __init__(self, root):
