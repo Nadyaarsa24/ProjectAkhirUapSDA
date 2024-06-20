@@ -3,7 +3,7 @@ import csv
 
 # <-- Class TiketBus -->
 class TiketBus:
-    def __init__(self, file_path="tiket_bus.csv"):
+    def __init__(self, file_path="datatiketbus.csv"):
         self.file_path = file_path
         self.data = self.unggah_data()
 
@@ -202,6 +202,7 @@ def main():
         elif pilihan == '2':
             tiket_bus.lihat_data()
         elif pilihan == '3':
+            print("")
             nama = input("Masukkan Nama: ")
             asal = input("Masukkan Asal: ")
             tujuan = input("Masukkan Tujuan: ")
